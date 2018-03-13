@@ -5,7 +5,7 @@ from numpy.linalg import inv
 init = False
 file = open('demo1x.dat', 'rb')
 for row in file:
-    r = row.strip().split(' ')
+    r = row1.strip().split(' ')
     if(init == False):
         x_train = np.array([[1], [np.float(r[0])], [np.float(r[len(r)-1])]])
         init = True
@@ -21,27 +21,21 @@ for row in file:
         y_train = np.append(y_train, [[np.float(row.strip())]], axis=1);
 
 m = y_train.shape[1]
-
 theta = np.array(np.zeros((x_train.shape[0], 1)))
 
+
+def sigmoid(theta, x):
+    return 1/(1+np.exp(theta.T.dot(x)))
+    
+yT = y_train.T
 xT = x_train.T
-while True:
-    J = 0
-    #scan through training set
-    for i in range(0, m):
-        #for each training set
-        x = x + 1;
-        #calculate h_predicted
-        h = xT[i].dot(theta)
-        #calculate error=h_predicted-y_target
-        error = (h - y_train[i])
-        #accumulate error to J
-        J = J + error;
-        #update theta for a training set
-        theta = theta - 0.0001*(error*xT[i])[:, np.newaxis];
-    J=J/m
-    #plot J
-    update_line(g, x, J)
+#iterator 500 steps
+for x in range(0, 2):
+    h = sigmoid(theta, x_train)
+    error = h.T - yT;
+    tmp = (-1)*y_train*np.log(h) - (1-y_train)*np.log((1-h))
+    J = tmp.dot(tmp.T)/m
+    theta = theta - 0.01*x_train.dot(error)/m;
     print(J)
-    if(abs(J)<0.0001):
-        break
+    
+print(theta)
