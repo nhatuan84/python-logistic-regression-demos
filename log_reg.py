@@ -5,7 +5,7 @@ from numpy.linalg import inv
 init = False
 file = open('demo1x.dat', 'rb')
 for row in file:
-    r = row1.strip().split(' ')
+    r = row.decode('utf8').strip().split(' ')
     if(init == False):
         x_train = np.array([[1], [np.float(r[0])], [np.float(r[len(r)-1])]])
         init = True
@@ -35,7 +35,8 @@ for x in range(0, 2):
     error = h.T - yT;
     tmp = (-1)*y_train*np.log(h) - (1-y_train)*np.log((1-h))
     J = tmp.dot(tmp.T)/m
-    theta = theta - 0.01*x_train.dot(error)/m;
+    H = h.dot(1-h).dot(x).dot(x_train.T)/m
+    theta = theta - inv(H)*x_train.dot(error)/m;
     print(J)
     
 print(theta)
