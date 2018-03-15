@@ -47,22 +47,23 @@ while True:
         tmp = (-1)*yT[i]*np.log(h) - (1-yT[i])*np.log((1-h))
         J = J + tmp
         nX = np.array([x_train[:,i]]).T
-        theta = theta - 0.001*(error*nX)
+        theta = theta - 0.000003*(error*nX)
     J=J/m
-    print(J)
+    if(x == 1000):
+        x = 0
+        print(J)
     if(preJ == 0):
         preJ = J
-    if(preJ < J and x > 1000):
+    if((preJ) < (J)):
         break
     else:
         preJ = J
 print(theta)
 
-plot_x = [np.ndarray.min(x_train[2:]), np.ndarray.max(x_train[2:])]
+plot_x = [np.ndarray.min(x_train[1:]), np.ndarray.max(x_train[1:])]
 
 plot_y = np.subtract(np.multiply(-(theta[2][0]/theta[1][0]), plot_x), theta[0][0]/theta[1][0])
 
 plt.plot(plot_x, plot_y, 'b-')
 
 plt.show()
-
