@@ -27,14 +27,21 @@ theta = np.array(np.zeros((x_train.shape[0], 1)))
 def sigmoid(z):
     return 1/(1+np.exp(-z))
 
+pos = np.flatnonzero(y_train == 1)
+neg = np.flatnonzero(y_train == 0)
+
+plt.figure(1)
+plt.plot(x_train[1, pos], x_train[2, pos], 'ro')
+plt.plot(x_train[1, neg], x_train[2, neg], 'bo')    
+    
 x = 0
 xT = x_train.T
 yT = y_train.T
 preJ = 0
 while True:
     J = 0
+    x = x + 1;
     for i in range(0, m):
-        x = x + 1;
         h = sigmoid(theta.T.dot(x_train[:,i].T))
         error = h.T - yT[i]
         tmp = (-1)*yT[i]*np.log(h) - (1-yT[i])*np.log((1-h))
@@ -45,10 +52,17 @@ while True:
     print(J)
     if(preJ == 0):
         preJ = J
-    if(preJ < J):
+    if(preJ < J and x > 1000):
         break
     else:
         preJ = J
 print(theta)
-#plt.show()
+
+plot_x = [np.ndarray.min(x_train[2:]), np.ndarray.max(x_train[2:])]
+
+plot_y = np.subtract(np.multiply(-(theta[2][0]/theta[1][0]), plot_x), theta[0][0]/theta[1][0])
+
+plt.plot(plot_x, plot_y, 'b-')
+
+plt.show()
 
