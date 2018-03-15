@@ -5,7 +5,7 @@ from numpy.linalg import inv
 init = False
 file = open('demo1x.dat', 'rb')
 for row in file:
-    r = row.strip().split(' ')
+    r = row.decode('utf8').strip().split(' ')
     if(init == False):
         x_train = np.array([[1], [np.float(r[0])], [np.float(r[len(r)-1])]])
         init = True
@@ -30,27 +30,25 @@ def sigmoid(z):
 x = 0
 xT = x_train.T
 yT = y_train.T
+preJ = 0
 while True:
     J = 0
-    #scan through training set
     for i in range(0, m):
-        #for each training set
         x = x + 1;
-        #calculate h_predicted
-        h = sigmoid(theta*(xT[i].T));print(theta*(xT[i].T))
+        h = sigmoid(theta.T.dot(x_train[:,i].T))
         error = h.T - yT[i]
-        #accumulate error to J
-        tmp = (-1)*y_train[i]*np.log(h) - (1-y_train[i])*np.log((1-h))
-        J = J + tmp;
-        #update theta for a training set
-        theta = theta - 0.0001*(error*x_train[i]);
+        tmp = (-1)*yT[i]*np.log(h) - (1-yT[i])*np.log((1-h))
+        J = J + tmp
+        nX = np.array([x_train[:,i]]).T
+        theta = theta - 0.001*(error*nX)
     J=J/m
-    #plot J
-    #update_line(g, x, J)
     print(J)
-    if(abs(J)<0.0001):
+    if(preJ == 0):
+        preJ = J
+    if(preJ < J):
         break
+    else:
+        preJ = J
 print(theta)
-plt.show()
-
+#plt.show()
 
