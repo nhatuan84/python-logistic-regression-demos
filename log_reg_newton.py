@@ -53,6 +53,15 @@ for x in range(0, 10):
     
 print(theta)
 
+#u = np.linspace(np.ndarray.min(x_train[1:]), np.ndarray.max(x_train[1:]), num=2)
+#v = np.linspace(np.ndarray.min(x_train[1:]), np.ndarray.max(x_train[1:]), num=2)
+#z = np.zeros((len(u), len(v)))
+#for i in range(0, len(u)):
+#    for j in range(0, len(v)):
+#        z[i, j] = theta[0][0] + theta[1][0]*u[i] + theta[2][0]*v[j]
+#print(z)
+#plt.contour(u, v, z)
+
 plot_x = [np.ndarray.min(x_train[1:]), np.ndarray.max(x_train[1:])]
 plot_y = np.subtract(np.multiply(-(theta[2][0]/theta[1][0]), plot_x), theta[0][0]/theta[1][0])
 plt.plot(plot_x, plot_y, 'b-')
