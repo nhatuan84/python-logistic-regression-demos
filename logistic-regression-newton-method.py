@@ -53,6 +53,8 @@ for x in range(0, 10):
     
 print(theta)
 
+#plot boundary to separate data points
+
 #u = np.linspace(np.ndarray.min(x_train[1:]), np.ndarray.max(x_train[1:]), num=2)
 #v = np.linspace(np.ndarray.min(x_train[1:]), np.ndarray.max(x_train[1:]), num=2)
 #z = np.zeros((len(u), len(v)))
